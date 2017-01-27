@@ -48,3 +48,41 @@ if !(rows.isEmpty) {
 for x in 0..<day.count {
 	print("Day:\(day[x]) [\(thought[x])]")
 }
+
+// Refactored Above into one function
+
+func parseCSV(file: String) -> [[String]] {
+	
+	var rows = [String]()
+	var columns = [[String]]()
+	
+	// Parse a CSV and return an Array of Strings which will represent the column data
+	
+	let filePath = Bundle.main.path(forResource: file, ofType: "csv")!
+	do {
+		let fileContents = try String(contentsOfFile: filePath)
+		theFile = fileContents
+		
+		theFile.enumerateLines(invoking: { (row, _) in
+			rows.append(row)
+		})
+		
+		for row in rows {
+			let column = row.components(separatedBy: "\t")
+			columns.append(column)
+		}
+	} catch {
+		print("Try failed")
+	}
+	return columns
+}
+
+let fields = parseCSV(file: "become-what-you-believe-t")
+let theDay = 10
+if fields.count > theDay  {
+	let days = theDay
+	let dayDetails = fields[days]
+	let thought2 = dayDetails[1]
+	let mantra2 = dayDetails[2]
+	let meaning2 = dayDetails[3]
+}
